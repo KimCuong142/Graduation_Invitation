@@ -1,0 +1,363 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  /* Metallic Gold Foil Text */
+  .text-gold-foil {
+    background: linear-gradient(135deg, #A8813E 0%, #DEB86D 22%, #FFF4D0 45%, #C29B53 65%, #E7CA85 85%, #8B6528 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 1px 1px rgba(139, 101, 40, 0.2));
+  }
+
+  .tri-fold-invitation {
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+  }
+
+  .tri-fold-stage {
+    width: min(94vw, 1100px);
+    perspective: 2200px;
+    perspective-origin: 50% 46%;
+    padding: clamp(1rem, 3vw, 2.5rem);
+    border: 1px solid rgba(197, 157, 95, 0.2);
+    border-radius: 1.25rem;
+    background:
+      radial-gradient(circle at 50% 42%, rgba(32, 48, 69, 0.7), transparent 62%),
+      linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(0, 0, 0, 0.22));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      inset 0 -18px 34px rgba(0, 0, 0, 0.2),
+      0 20px 50px rgba(0, 0, 0, 0.24);
+  }
+
+  .tri-fold-paper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: calc(3 * var(--panel-ratio)) / 1;
+    transform-style: preserve-3d;
+    transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transition: transform 420ms ease-out;
+    filter: drop-shadow(
+      var(--shadow-x, 0px) var(--shadow-y, 22px) 25px rgba(0, 0, 0, 0.38)
+    );
+    will-change: transform, filter;
+  }
+
+  .tri-fold-input-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .tri-fold-input-layer:active {
+    cursor: grabbing;
+  }
+
+  .tri-fold-stage:active .tri-fold-paper {
+    transition: none;
+  }
+
+  .tri-fold-spread,
+  .tri-fold-flap {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+  }
+
+  .tri-fold-spread {
+    z-index: 1;
+  }
+
+  .tri-fold-spread img,
+  .tri-fold-flap img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+  }
+
+  .tri-fold-flap img {
+    backface-visibility: hidden;
+  }
+
+  .tri-fold-spread img {
+    position: absolute;
+    top: 0;
+    width: 33.3333%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 180ms ease-out;
+  }
+
+  .tri-fold-spread img:nth-child(1) {
+    left: 33.3333%;
+  }
+
+  .tri-fold-spread img:nth-child(2) {
+    left: 66.6667%;
+  }
+
+  .tri-fold-spread img.is-revealed {
+    opacity: 1;
+  }
+
+  .tri-fold-flap {
+    z-index: 3;
+    width: 33.3333%;
+    height: 100%;
+    cursor: grab;
+    touch-action: none;
+    transform-style: preserve-3d;
+    transition: transform 620ms cubic-bezier(0.22, 0.78, 0.24, 1);
+    will-change: transform;
+  }
+
+  .tri-fold-cast-shadow {
+    position: absolute;
+    top: 3%;
+    bottom: -3%;
+    width: 33.3333%;
+    z-index: 2;
+    pointer-events: none;
+    transform-style: preserve-3d;
+    opacity: calc(var(--fold-progress) * 0.34);
+    filter: blur(7px);
+    background: linear-gradient(
+      90deg,
+      rgba(11, 16, 25, 0.55),
+      rgba(11, 16, 25, 0.18) 48%,
+      transparent
+    );
+    transition:
+      opacity 180ms ease-out,
+      transform 180ms ease-out;
+  }
+
+  .tri-fold-cast-shadow-left {
+    left: 0;
+    transform-origin: 0% 50%;
+    transform:
+      rotateY(calc(var(--fold-angle) * 0.28))
+      translateX(calc(var(--fold-progress) * 8%))
+      scaleX(calc(1 - var(--fold-progress) * 0.3))
+      skewY(calc(var(--fold-progress) * -2deg));
+  }
+
+  .tri-fold-cast-shadow-right {
+    left: 66.6667%;
+    transform-origin: right center;
+    transform:
+      rotateY(calc(var(--fold-angle) * 0.28))
+      translateX(calc(var(--fold-progress) * -8%))
+      scaleX(calc(1 - var(--fold-progress) * 0.3))
+      skewY(calc(var(--fold-progress) * 2deg));
+    background: linear-gradient(
+      -90deg,
+      rgba(11, 16, 25, 0.55),
+      rgba(11, 16, 25, 0.18) 48%,
+      transparent
+    );
+  }
+
+  .tri-fold-flap-left {
+    left: 33.3333%;
+    z-index: 4;
+  }
+
+  .tri-fold-flap-right {
+    left: 33.3333%;
+    z-index: 2;
+  }
+
+  .tri-fold-flap-left .tri-fold-edge-shadow {
+    right: auto;
+    left: -2px;
+  }
+
+  .tri-fold-flap.is-dragging {
+    cursor: grabbing;
+    transition: none;
+  }
+
+  .tri-fold-flap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    backface-visibility: hidden;
+    background:
+      linear-gradient(90deg, rgba(20, 15, 8, 0.2), transparent 9%, transparent 90%, rgba(20, 15, 8, 0.22)),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 22%, rgba(15, 20, 30, 0.12));
+    mix-blend-mode: multiply;
+  }
+
+  .tri-fold-flap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    opacity: calc(0.12 + var(--bend-strength) * 0.42);
+    background:
+      radial-gradient(
+        ellipse 18% 72% at 8% 50%,
+        rgba(255, 255, 255, 0.46),
+        transparent 70%
+      ),
+      linear-gradient(
+        90deg,
+        rgba(22, 20, 15, 0.22),
+        transparent 16%,
+        transparent 84%,
+        rgba(22, 20, 15, 0.14)
+      );
+    mix-blend-mode: soft-light;
+    transform: scaleX(calc(1 + var(--bend-strength) * 0.018));
+    transform-origin: 0 50%;
+  }
+
+  .tri-fold-flap-right::before {
+    background:
+      radial-gradient(
+        ellipse 18% 72% at 92% 50%,
+        rgba(255, 255, 255, 0.46),
+        transparent 70%
+      ),
+      linear-gradient(
+        -90deg,
+        rgba(22, 20, 15, 0.22),
+        transparent 16%,
+        transparent 84%,
+        rgba(22, 20, 15, 0.14)
+      );
+    transform-origin: 100% 50%;
+  }
+
+  .tri-fold-edge-shadow {
+    position: absolute;
+    top: 0;
+    right: -2px;
+    bottom: 0;
+    width: 4px;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(255, 250, 232, 0.6), rgba(38, 29, 15, 0.45));
+    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .tri-fold-flap-right .tri-fold-edge-shadow {
+    right: -2px;
+    left: auto;
+  }
+
+  .tri-fold-instruction {
+    margin: 0.8rem 0 0;
+    color: rgba(231, 220, 198, 0.72);
+    font: 500 0.72rem/1.4 ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .tri-fold-stage {
+      width: 96vw;
+    }
+
+    .tri-fold-instruction {
+      max-width: 22rem;
+    }
+  }
+
+  /* Deep Navy Solid & Gradients */
+  .text-navy-deep {
+    color: #001E3D;
+  }
+
+  .bg-navy-deep {
+    background-color: #001E3D;
+  }
+
+  /* Parchment Card Paper Texture */
+  .bg-card-parchment {
+    background: radial-gradient(circle at 50% 40%, #FFFDF9 0%, #FAF5EA 55%, #F4ECE0 100%);
+    box-shadow: 
+      inset 0 0 40px rgba(180, 150, 100, 0.08),
+      0 10px 35px -5px rgba(0, 0, 0, 0.25),
+      0 0 0 1px rgba(212, 175, 55, 0.15);
+  }
+
+  /* Luxury Card Border */
+  .border-gold-accent {
+    border-color: #C59D5F;
+  }
+
+  /* 3D Transform Utilities */
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .perspective-2000 {
+    perspective: 2000px;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .tri-fold-flap-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+  }
+
+  .tri-fold-flap-back {
+    transform: rotateY(180deg);
+  }
+
+  .vertical-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    letter-spacing: 0.18em;
+  }
+}
+
+/* Custom Scrollbar for Drawer */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.6);
+}
+
+/* Print Optimization */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-page {
+    box-shadow: none !important;
+    page-break-after: always;
+    margin: 0 !important;
+  }
+}
