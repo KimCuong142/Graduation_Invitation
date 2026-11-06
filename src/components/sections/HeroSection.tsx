@@ -1,19 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { fadeUp } from '../../utils/animation';
-import { Sparkles, ArrowRight, Download } from 'lucide-react';
+import { Sparkles, ArrowRight } from 'lucide-react';
 import Hls from 'hls.js';
 
 interface HeroSectionProps {
   guestName?: string;
   onOpenGuestbook: (prefilledMessage?: string) => void;
-  onOpenPdf: () => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   guestName,
   onOpenGuestbook,
-  onOpenPdf,
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
@@ -86,6 +84,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
           <video
             ref={topVideoRef}
+            id="hero-top-video"
+            crossOrigin="anonymous"
             autoPlay
             muted
             loop
@@ -193,23 +193,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </motion.button>
           </motion.form>
 
-          {/* Download PDF Quick Action */}
-          <motion.div
-            {...fadeUp(0.6)}
-            className="mb-6 sm:mb-8 flex items-center gap-3"
-          >
-            <button
-              onClick={onOpenPdf}
-              type="button"
-              className="liquid-glass liquid-glass-hover text-xs font-semibold text-amber-200 hover:text-white px-4 py-2 rounded-full border border-amber-400/30 hover:border-amber-400/60 shadow-sm flex items-center gap-2 transition-all cursor-pointer"
-            >
-              <Download className="w-3.5 h-3.5 text-amber-400" />
-              <span>
-                {guestName ? `Tải Thiệp Mời PDF (${guestName})` : 'Tải Thiệp Mời PDF'}
-              </span>
-            </button>
-          </motion.div>
-
           {/* 3-avatar row indicator */}
           <motion.div
             {...fadeUp(0.65)}
@@ -244,6 +227,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         {/* Background Video 2: Ngôi sao kim cương + Phi hành gia */}
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
           <video
+            id="hero-bottom-video"
+            crossOrigin="anonymous"
             autoPlay
             loop
             muted

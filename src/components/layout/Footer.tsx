@@ -29,12 +29,21 @@ export const Footer: React.FC = () => {
         </a>
 
         <a
-          href="https://instagram.com"
+          href="https://www.facebook.com/share/1Se4x8a3A5/"
           target="_blank"
           rel="noopener noreferrer"
           className="text-stone-400 hover:text-amber-300 transition-colors duration-200"
         >
-          Social
+          Facebook
+        </a>
+
+        <a
+          href="https://www.instagram.com/_the.dia.mond?rpxt=aHp6OGl2M2kzYnZv"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-stone-400 hover:text-amber-300 transition-colors duration-200"
+        >
+          Instagram
         </a>
       </div>
     </footer>

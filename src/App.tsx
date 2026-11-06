@@ -7,14 +7,12 @@ import { ScheduleSection } from './components/sections/ScheduleSection';
 import { CTASection } from './components/sections/CTASection';
 import { Footer } from './components/layout/Footer';
 import { GuestbookModal } from './components/modals/GuestbookModal';
-import { PdfInvitationModal } from './components/modals/PdfInvitationModal';
 import { FloatingWishBubbles } from './components/wishes/FloatingWishBubbles';
 import { resolveGuestFromUrl, GuestProfile, getGuestPanelKey } from './data/guests';
 
 export const App: React.FC = () => {
   const [guest, setGuest] = useState<GuestProfile | null>(null);
   const [isGuestbookOpen, setIsGuestbookOpen] = useState(false);
-  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [prefilledMessage, setPrefilledMessage] = useState('');
 
   useEffect(() => {
@@ -30,16 +28,11 @@ export const App: React.FC = () => {
     setIsGuestbookOpen(true);
   };
 
-  const handleOpenPdf = () => {
-    setIsPdfModalOpen(true);
-  };
-
   return (
     <div className="relative min-h-screen bg-black text-foreground selection:bg-white/20 selection:text-white font-sans antialiased overflow-x-hidden">
       {/* 1. Navbar (fixed, transparent) */}
       <Navbar
         onOpenGuestbook={() => handleOpenGuestbook('')}
-        onOpenPdf={handleOpenPdf}
         guestName={guest?.name}
         hasInvitation={!!guest}
       />
@@ -49,7 +42,6 @@ export const App: React.FC = () => {
         <HeroSection
           guestName={guest?.name}
           onOpenGuestbook={handleOpenGuestbook}
-          onOpenPdf={handleOpenPdf}
         />
 
         {/* 3. 3D Tri-Fold Brochure Invitation Section (Only shown when guest is specified in URL) */}
@@ -65,7 +57,6 @@ export const App: React.FC = () => {
         <CTASection
           guestName={guest?.name}
           onOpenGuestbook={() => handleOpenGuestbook('')}
-          onOpenPdf={handleOpenPdf}
         />
       </main>
 
@@ -81,14 +72,6 @@ export const App: React.FC = () => {
         onClose={() => setIsGuestbookOpen(false)}
         guestName={guest?.name}
         initialMessage={prefilledMessage}
-      />
-
-      <PdfInvitationModal
-        isOpen={isPdfModalOpen}
-        onClose={() => setIsPdfModalOpen(false)}
-        recipientName={guest?.name || 'Quý Khách'}
-        salutation={guest?.salutation || 'Kính gửi'}
-        role={guest?.role}
       />
     </div>
   );

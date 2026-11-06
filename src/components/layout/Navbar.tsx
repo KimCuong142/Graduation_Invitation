@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Download, Heart } from 'lucide-react';
+import { Menu, X, Heart } from 'lucide-react';
 
 interface NavbarProps {
   onOpenGuestbook?: () => void;
-  onOpenPdf?: () => void;
   guestName?: string;
   hasInvitation?: boolean;
 }
@@ -42,7 +41,7 @@ const LinkedinIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' 
   </svg>
 );
 
-const TwitterIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
+const FacebookIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
@@ -51,15 +50,14 @@ const TwitterIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }
     strokeLinecap="round"
     strokeLinejoin="round"
     className={className}
-    aria-label="Twitter / X"
+    aria-label="Facebook"
   >
-    <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
   </svg>
 );
 
 export const Navbar: React.FC<NavbarProps> = ({
   onOpenGuestbook,
-  onOpenPdf,
   guestName,
   hasInvitation = false,
 }) => {
@@ -135,7 +133,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           ))}
         </nav>
 
-        {/* Right: Guest pill + PDF Button + Social icons */}
+        {/* Right: Guest pill + Social icons */}
         <div className="hidden sm:flex items-center gap-2.5">
           {guestName && (
             <div className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-medium">
@@ -144,19 +142,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           )}
 
-          {onOpenPdf && (
-            <button
-              onClick={onOpenPdf}
-              type="button"
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full liquid-glass border border-amber-400/40 text-amber-300 hover:text-white hover:border-amber-400 text-xs font-semibold shadow-sm transition-all cursor-pointer"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span>Tải PDF</span>
-            </button>
-          )}
-
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/_the.dia.mond?rpxt=aHp6OGl2M2kzYnZv"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"
@@ -166,7 +153,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </a>
 
           <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/kim-cuong-huynh-26240b1a0"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
@@ -176,13 +163,13 @@ export const Navbar: React.FC<NavbarProps> = ({
           </a>
 
           <a
-            href="https://twitter.com"
+            href="https://www.facebook.com/share/1Se4x8a3A5/"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Twitter / X"
+            aria-label="Facebook"
             className="w-10 h-10 rounded-full liquid-glass liquid-glass-hover border border-white/10 hover:border-amber-400/50 flex items-center justify-center text-stone-300 hover:text-amber-300 transition-all duration-200 shadow-sm"
           >
-            <TwitterIcon />
+            <FacebookIcon />
           </a>
         </div>
 
@@ -215,28 +202,31 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
           <div className="flex items-center gap-4 pt-2">
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/_the.dia.mond?rpxt=aHp6OGl2M2kzYnZv"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Instagram"
               className="w-10 h-10 rounded-full liquid-glass flex items-center justify-center text-stone-300 hover:text-amber-300 border border-white/10"
             >
               <InstagramIcon />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/kim-cuong-huynh-26240b1a0"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="LinkedIn"
               className="w-10 h-10 rounded-full liquid-glass flex items-center justify-center text-stone-300 hover:text-amber-300 border border-white/10"
             >
               <LinkedinIcon />
             </a>
             <a
-              href="https://twitter.com"
+              href="https://www.facebook.com/share/1Se4x8a3A5/"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Facebook"
               className="w-10 h-10 rounded-full liquid-glass flex items-center justify-center text-stone-300 hover:text-amber-300 border border-white/10"
             >
-              <TwitterIcon />
+              <FacebookIcon />
             </a>
           </div>
         </div>

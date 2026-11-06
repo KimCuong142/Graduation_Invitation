@@ -1,18 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { fadeUp } from '../../utils/animation';
-import { Sparkles, Download, Heart } from 'lucide-react';
+import { Sparkles, Heart } from 'lucide-react';
 import Hls from 'hls.js';
 
 interface CTASectionProps {
   onOpenGuestbook: () => void;
-  onOpenPdf: () => void;
   guestName?: string;
 }
 
 export const CTASection: React.FC<CTASectionProps> = ({
   onOpenGuestbook,
-  onOpenPdf,
   guestName,
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -127,12 +125,11 @@ export const CTASection: React.FC<CTASectionProps> = ({
           )}
         </motion.p>
 
-        {/* Two buttons */}
+        {/* Action button: Gửi Lời Chúc */}
         <motion.div
           {...fadeUp(0.4)}
-          className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
+          className="flex justify-center w-full"
         >
-          {/* Primary Button: Gửi Lời Chúc */}
           <motion.button
             onClick={onOpenGuestbook}
             whileHover={{ scale: 1.03 }}
@@ -141,17 +138,6 @@ export const CTASection: React.FC<CTASectionProps> = ({
           >
             <Heart className="w-4 h-4 fill-slate-950" />
             <span>GỬI LỜI CHÚC (SỔ LƯU BÚT)</span>
-          </motion.button>
-
-          {/* Secondary Button: Tải PDF */}
-          <motion.button
-            onClick={onOpenPdf}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full sm:w-auto liquid-glass liquid-glass-hover text-amber-200 hover:text-white font-bold rounded-full px-8 py-3.5 text-sm tracking-wide border border-amber-400/40 hover:border-amber-400 shadow-md transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
-          >
-            <Download className="w-4 h-4 text-amber-400" />
-            <span>TẢI THIỆP MỜI (PDF)</span>
           </motion.button>
         </motion.div>
       </div>

@@ -401,6 +401,7 @@ export const TriFoldInvitation = forwardRef<
           }}
         >
           <Canvas
+            id="trifold-3d-canvas"
             orthographic
             shadows={{ type: VSMShadowMap, autoUpdate: true }}
             camera={{
@@ -413,7 +414,7 @@ export const TriFoldInvitation = forwardRef<
               far: 20,
             }}
             dpr={[1, 1.75]}
-            gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+            gl={{ antialias: true, alpha: true, powerPreference: 'high-performance', preserveDrawingBuffer: true }}
           >
             <AdaptiveDpr pixelated />
             <AdaptiveEvents />
