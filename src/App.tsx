@@ -20,6 +20,9 @@ export const App: React.FC = () => {
     const detected = resolveGuestFromUrl();
     if (detected) {
       setGuest(detected);
+      document.title = `Huỳnh Kim Cương | Thư Mời Tốt Nghiệp · Gửi ${detected.name}`;
+    } else {
+      document.title = 'Huỳnh Kim Cương | Lễ Tốt Nghiệp · Graduation Ceremony 2026';
     }
   }, []);
 

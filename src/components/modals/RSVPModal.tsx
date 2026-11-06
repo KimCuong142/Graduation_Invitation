@@ -84,7 +84,7 @@ export const RSVPModal: React.FC<RSVPModalProps> = ({
               Xác nhận thành công!
             </h3>
             <p className="text-sm text-stone-300 max-w-xs mx-auto">
-              Cảm ơn {name} đã phản hồi. Phương An rất trân trọng sự hiện diện và tình cảm của bạn!
+              Cảm ơn {name} đã phản hồi. Kim Cương rất trân trọng sự hiện diện và tình cảm của bạn!
             </p>
           </div>
         ) : (
@@ -187,7 +187,7 @@ export const RSVPModal: React.FC<RSVPModalProps> = ({
               {/* Note / Message */}
               <div>
                 <label className="block text-xs text-stone-300 mb-1.5 font-medium">
-                  Lời nhắn gửi đến Phương An
+                  Lời nhắn gửi đến Kim Cương
                 </label>
                 <div className="relative">
                   <MessageSquare className="absolute left-3.5 top-3 w-4 h-4 text-stone-400" />
