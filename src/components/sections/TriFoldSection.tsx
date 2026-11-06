@@ -6,8 +6,13 @@ import {
   TriFoldInvitationHandle,
 } from '../invitation/TriFoldInvitation';
 import { RotateCcw, Maximize2, Minimize2, BookOpen } from 'lucide-react';
+import { GuestPanelKey } from '../../data/guests';
 
-export const TriFoldSection: React.FC = () => {
+interface TriFoldSectionProps {
+  guestKey?: GuestPanelKey;
+}
+
+export const TriFoldSection: React.FC<TriFoldSectionProps> = ({ guestKey = 'An' }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const invitationRef = useRef<TriFoldInvitationHandle>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -90,6 +95,7 @@ export const TriFoldSection: React.FC = () => {
             {/* Integrated Three.js Canvas with lighting */}
             <TriFoldInvitation
               ref={invitationRef}
+              guestKey={guestKey}
               onOpenStateChange={(open) => setIsOpen(open)}
             />
 

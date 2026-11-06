@@ -4,6 +4,7 @@ import React, {
   useState,
   useImperativeHandle,
   forwardRef,
+  Suspense,
 } from 'react';
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
 import { AdaptiveDpr, AdaptiveEvents } from '@react-three/drei';
@@ -15,10 +16,11 @@ import {
   VSMShadowMap,
   type Group,
 } from 'three';
+import { GuestPanelKey } from '../../data/guests';
 
-const PANEL_WIDTH = 1.24;
+const PANEL_RATIO = 755 / 1600; // 0.471875
 const PANEL_HEIGHT = 1.748;
-const PANEL_RATIO = PANEL_WIDTH / PANEL_HEIGHT;
+const PANEL_WIDTH = PANEL_HEIGHT * PANEL_RATIO; // 0.8248375
 const DRAG_DISTANCE = 260;
 const SHADOW_MAP_SIZE = 1024;
 
@@ -42,6 +44,7 @@ export interface TriFoldInvitationHandle {
 interface TriFoldInvitationProps {
   className?: string;
   onOpenStateChange?: (isOpen: boolean) => void;
+  guestKey?: GuestPanelKey;
 }
 
 const clamp = (value: number, min = 0, max = 1) =>
@@ -53,6 +56,7 @@ interface InvitationSceneProps {
   leftTarget: React.MutableRefObject<number>;
   rightTarget: React.MutableRefObject<number>;
   tilt: React.MutableRefObject<{ x: number; y: number }>;
+  guestKey?: GuestPanelKey;
 }
 
 const InvitationScene: React.FC<InvitationSceneProps> = ({
@@ -61,14 +65,15 @@ const InvitationScene: React.FC<InvitationSceneProps> = ({
   leftTarget,
   rightTarget,
   tilt,
+  guestKey = 'An',
 }) => {
   const textures = useLoader(TextureLoader, [
-    '/design/Inside_Left_panel.jpg',
-    '/design/Inside_Middle_panel.jpg',
-    '/design/Inside_Right_panel.jpg',
-    '/design/Outside_Left_panel.jpg',
-    '/design/Outside_Middle_panel.jpg',
-    '/design/Outside_Right_panel.jpg',
+    encodeURI('/design/Inside_Left_panel.png'),
+    encodeURI(`/design/Inside_Middle_panel_${guestKey}.png`),
+    encodeURI(`/design/Inside_Right_panel_${guestKey}.png`),
+    encodeURI('/design/Outside_Left_panel.png'),
+    encodeURI('/design/Outside_Middle_panel.png'),
+    encodeURI(`/design/Outside_Right_panel_${guestKey}.png`),
   ]);
   const sceneRef = useRef<Group>(null);
   const leftCoverRef = useRef<Group>(null);
@@ -250,7 +255,7 @@ const CameraSetup: React.FC = () => {
 export const TriFoldInvitation = forwardRef<
   TriFoldInvitationHandle,
   TriFoldInvitationProps
->(({ className = '', onOpenStateChange }, ref) => {
+>(({ className = '', onOpenStateChange, guestKey = 'An' }, ref) => {
   const [dragging, setDragging] = useState<FlapName | null>(null);
   const dragRef = useRef<DragState | null>(null);
   const leftProgress = useRef(0);
@@ -400,10 +405,10 @@ export const TriFoldInvitation = forwardRef<
             shadows={{ type: VSMShadowMap, autoUpdate: true }}
             camera={{
               position: [0, 0, 7],
-              left: -1.98,
-              right: 1.98,
-              top: 0.98,
-              bottom: -0.98,
+              left: -1.42,
+              right: 1.42,
+              top: 1.0,
+              bottom: -1.0,
               near: 0.1,
               far: 20,
             }}
@@ -413,13 +418,16 @@ export const TriFoldInvitation = forwardRef<
             <AdaptiveDpr pixelated />
             <AdaptiveEvents />
             <CameraSetup />
-            <InvitationScene
-              leftProgress={leftProgress}
-              rightProgress={rightProgress}
-              leftTarget={leftTarget}
-              rightTarget={rightTarget}
-              tilt={tilt}
-            />
+            <Suspense fallback={null}>
+              <InvitationScene
+                leftProgress={leftProgress}
+                rightProgress={rightProgress}
+                leftTarget={leftTarget}
+                rightTarget={rightTarget}
+                tilt={tilt}
+                guestKey={guestKey}
+              />
+            </Suspense>
           </Canvas>
 
           <div

@@ -169,8 +169,8 @@ export const PdfInvitationModal: React.FC<PdfInvitationModalProps> = ({
                 <span className="text-[#D4AF37] font-semibold uppercase tracking-wider text-[10px] block">
                   Thời Gian
                 </span>
-                <p className="font-bold text-white">07:30 - Thứ Bảy</p>
-                <p className="text-stone-300">27 Tháng 06, 2026</p>
+                <p className="font-bold text-white">12:00 - Thứ Bảy</p>
+                <p className="text-stone-300">07 Tháng 11, 2026</p>
               </div>
 
               <div className="space-y-1">

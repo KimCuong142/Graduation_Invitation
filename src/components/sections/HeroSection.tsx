@@ -16,6 +16,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onOpenPdf,
 }) => {
   const [inputValue, setInputValue] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
   const topVideoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -146,13 +147,40 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           >
             <div className="flex items-center gap-2.5 pl-3 flex-1 min-w-0">
               <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Gửi lời chúc mừng tốt nghiệp đến Kim Cương..."
-                className="w-full bg-transparent text-sm md:text-base text-white placeholder:text-stone-400 focus:outline-none"
-              />
+              <div className="relative flex-1 min-w-0 overflow-hidden flex items-center py-1">
+                {/* Animated continuous marquee placeholder */}
+                <div
+                  className={`absolute inset-0 flex items-center pointer-events-none transition-opacity duration-300 ${
+                    inputValue ? 'opacity-0' : isFocused ? 'opacity-20' : 'opacity-100'
+                  }`}
+                >
+                  <motion.div
+                    className="flex whitespace-nowrap text-sm md:text-base text-stone-400 select-none will-change-transform"
+                    animate={{ x: ['0%', '-50%'] }}
+                    transition={{
+                      repeat: Infinity,
+                      ease: 'linear',
+                      duration: 12,
+                    }}
+                  >
+                    <span className="pr-12 inline-block">
+                      Gửi lời chúc mừng tốt nghiệp đến Kim Cương...
+                    </span>
+                    <span className="pr-12 inline-block">
+                      Gửi lời chúc mừng tốt nghiệp đến Kim Cương...
+                    </span>
+                  </motion.div>
+                </div>
+
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                  className="w-full bg-transparent text-sm md:text-base text-white focus:outline-none relative z-10"
+                />
+              </div>
             </div>
             <motion.button
               type="submit"
@@ -282,7 +310,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 07 / 11 / 2026
               </h3>
               <p className="text-stone-300 text-[10px] sm:text-xs md:text-sm leading-tight sm:leading-relaxed max-w-xs">
-                06:00 - 13:00 (Lễ chính thức: 07:00 - 09:30)
+                12:00 - 19:00 (Lễ chính thức: 14:00 - 16:30)
               </p>
             </motion.div>
 

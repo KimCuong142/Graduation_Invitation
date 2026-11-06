@@ -125,3 +125,15 @@ export function resolveGuestFromUrl(): GuestProfile | null {
     customGreeting: 'Sự hiện diện của bạn là niềm vinh hạnh lớn đối với Kim Cương!'
   };
 }
+
+export type GuestPanelKey = 'An' | 'Châu' | 'Khoa' | 'Thảo';
+
+export function getGuestPanelKey(guest?: GuestProfile | null): GuestPanelKey {
+  if (!guest) return 'An';
+  const slug = toSlug(guest.slug || guest.name || '');
+  if (slug.includes('chau')) return 'Châu';
+  if (slug.includes('khoa')) return 'Khoa';
+  if (slug.includes('thao')) return 'Thảo';
+  return 'An';
+}
+

@@ -19,18 +19,28 @@ export const defaultInvitationData: InvitationData = {
 
   // Ceremony Event & Schedule
   eventTitle: 'GRADUATION CEREMONY',
-  eventDateText: 'Saturday, June 27, 2026',
-  eventIsoDate: '2026-06-27T07:30:00+07:00',
+  eventDateText: 'Saturday, November 7, 2026',
+  eventIsoDate: '2026-11-07T12:00:00+07:00',
   schedule: [
     {
-      time: '07:30 - 08:30',
+      time: '00:00 - 09:00',
+      title: 'Đang ngủ',
+      description: 'Saturday, November 7, 2026 • Nạp đầy năng lượng chuẩn bị'
+    },
+    {
+      time: '12:00 – 13:30',
       title: 'Reception & Photos',
       description: 'Đón tiếp khách quý và chụp ảnh lưu niệm tại sảnh chính'
     },
     {
-      time: '08:30 - 10:30',
+      time: '14:00 – 16:30',
       title: 'Main Ceremony',
       description: 'Nghi thức trao bằng tốt nghiệp trang trọng tại khán phòng'
+    },
+    {
+      time: '18:00 - 19:00',
+      title: 'Giao Lưu & Ăn Uống',
+      description: 'Tiệc mừng và giao lưu ấm cúng tại nhà hàng'
     }
   ],
 

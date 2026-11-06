@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { fadeUp } from '../../utils/animation';
-import { UserCheck, Award, Camera, MessageSquareHeart } from 'lucide-react';
+import { Moon, Camera, Award, Utensils } from 'lucide-react';
 
 export const ScheduleSection: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -15,10 +15,10 @@ export const ScheduleSection: React.FC = () => {
   const scheduleItems = [
     {
       step: '01',
-      time: '06:30 - 07:30',
-      title: 'Check-in & Đón tiếp',
-      description: 'Gặp gỡ, nhận thư mời và ổn định chỗ ngồi.',
-      icon: UserCheck,
+      time: '00:00 - 09:00',
+      title: 'Đang ngủ',
+      description: 'Saturday, November 7, 2026. Nạp đầy năng lượng chuẩn bị cho ngày trọng đại.',
+      icon: Moon,
       color: 'emerald',
       borderColor: 'border-emerald-400/30 hover:border-emerald-400/60',
       iconColor: 'text-emerald-400',
@@ -26,10 +26,10 @@ export const ScheduleSection: React.FC = () => {
     },
     {
       step: '02',
-      time: '07:30 - 09:30',
-      title: 'Lễ Trao Bằng',
-      description: 'Khoảnh khắc vinh danh và nhận bằng tốt nghiệp chính thức.',
-      icon: Award,
+      time: '12:00 – 13:30',
+      title: 'Reception & Photos',
+      description: 'Đón tiếp khách quý, check-in và chụp ảnh kỷ niệm tại sảnh chính.',
+      icon: Camera,
       color: 'amber',
       borderColor: 'border-amber-400/30 hover:border-amber-400/60',
       iconColor: 'text-amber-400',
@@ -37,10 +37,10 @@ export const ScheduleSection: React.FC = () => {
     },
     {
       step: '03',
-      time: '09:30 - 11:30',
-      title: 'Chụp ảnh Kỷ niệm',
-      description: 'Chụp hình lưu niệm cùng gia đình, thầy cô và bạn bè.',
-      icon: Camera,
+      time: '14:00 – 16:30',
+      title: 'Main Ceremony',
+      description: 'Nghi thức trao bằng tốt nghiệp trang trọng tại khán phòng chính.',
+      icon: Award,
       color: 'cyan',
       borderColor: 'border-cyan-400/30 hover:border-cyan-400/60',
       iconColor: 'text-cyan-400',
@@ -48,10 +48,10 @@ export const ScheduleSection: React.FC = () => {
     },
     {
       step: '04',
-      time: '11:30 - 13:00',
-      title: 'Trò chuyện & Giao lưu',
-      description: 'Dành thời gian trò chuyện, nhận lời chúc và tiệc ngọt thân mật.',
-      icon: MessageSquareHeart,
+      time: '18:00 - 19:00',
+      title: 'Giao Lưu & Ăn Uống',
+      description: 'Tiệc mừng và giao lưu ấm cúng tại nhà hàng cùng người thân và bạn bè.',
+      icon: Utensils,
       color: 'rose',
       borderColor: 'border-rose-400/30 hover:border-rose-400/60',
       iconColor: 'text-rose-400',
@@ -112,9 +112,10 @@ export const ScheduleSection: React.FC = () => {
             />
             <source src="/videos/banner.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
-          <div className="absolute bottom-4 left-6 sm:bottom-6 sm:left-8 pointer-events-none">
-            <span className="text-xs sm:text-sm tracking-[2px] uppercase text-amber-200 font-mono font-medium drop-shadow-md">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/60 pointer-events-none" />
+          {/* Centered text: căn giữa trên dưới trái phải */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none p-4 text-center z-10">
+            <span className="text-xs sm:text-sm md:text-base tracking-[2.5px] uppercase text-amber-200 font-mono font-semibold drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] bg-black/60 px-5 py-2 rounded-full border border-amber-400/30 backdrop-blur-sm">
               FPT University Convention Hall • Hall Alpha
             </span>
           </div>

@@ -53,7 +53,7 @@ export const MilestonesSection: React.FC = () => {
               07 / 11 / 2026
             </h3>
             <p className="text-stone-300 text-sm leading-relaxed max-w-xs">
-              06:00 - 13:00 (Lễ tốt nghiệp chính thức: 07:00 - 09:30)
+              12:00 - 19:00 (Lễ tốt nghiệp chính thức: 14:00 - 16:30)
             </p>
           </motion.div>
 

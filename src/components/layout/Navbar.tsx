@@ -5,6 +5,7 @@ interface NavbarProps {
   onOpenGuestbook?: () => void;
   onOpenPdf?: () => void;
   guestName?: string;
+  hasInvitation?: boolean;
 }
 
 const InstagramIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
@@ -60,6 +61,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenGuestbook,
   onOpenPdf,
   guestName,
+  hasInvitation = false,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -75,7 +77,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const navLinks = [
     { label: 'Trang chủ', href: '#hero' },
     { label: 'Cột mốc', href: '#milestones' },
-    { label: 'Thư mời 3D', href: '#invitation-3d' },
+    ...(hasInvitation ? [{ label: 'Thư mời 3D', href: '#invitation-3d' }] : []),
     { label: 'Lịch trình', href: '#schedule' },
     { label: 'Sổ lưu bút', href: '#guestbook' },
   ];
