@@ -32,7 +32,7 @@ export const FloatingWishBubbles: React.FC = () => {
   const wishIndexRef = useRef(0);
   const laneIndexRef = useRef(0);
 
-  // 1. Khởi tạo sẵn 2 bong bóng trên màn hình khi mới vào trang
+  // 1. Khởi tạo sẵn 3-4 bong bóng trên màn hình khi mới vào trang
   useEffect(() => {
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     const now = Date.now();
@@ -44,20 +44,30 @@ export const FloatingWishBubbles: React.FC = () => {
             name: 'Diễm Thy',
             message: 'Tui mừng cho pà 🥰',
             leftPercent: 6,
-            startY: '40vh',
-            duration: 16,
+            startY: '30vh',
+            duration: 10,
             swayAmount: 12,
-            createdAt: now - 8000,
+            createdAt: now - 5000,
           },
           {
             id: 'init-2',
             name: 'Phương An',
             message: 'Chúc chặng bay mới của Kim Cương thật rực rỡ ❤️',
             leftPercent: 42,
-            startY: '75vh',
-            duration: 18,
+            startY: '60vh',
+            duration: 11,
             swayAmount: -12,
             createdAt: now - 3000,
+          },
+          {
+            id: 'init-3',
+            name: 'Bảo Trâm',
+            message: 'Chúc Kim Cương tốt nghiệp rực rỡ! 🎓✨',
+            leftPercent: 16,
+            startY: '85vh',
+            duration: 10,
+            swayAmount: 10,
+            createdAt: now - 1000,
           },
         ]
       : [
@@ -65,25 +75,45 @@ export const FloatingWishBubbles: React.FC = () => {
             id: 'init-1',
             name: 'Diễm Thy',
             message: 'Tui mừng cho pà 🥰',
-            leftPercent: 6,
-            startY: '35vh',
-            duration: 20,
-            swayAmount: 15,
-            createdAt: now - 10000,
+            leftPercent: 5,
+            startY: '25vh',
+            duration: 11,
+            swayAmount: 14,
+            createdAt: now - 7000,
           },
           {
             id: 'init-2',
             name: 'Phương An',
             message: 'Chúc chặng bay mới của Kim Cương thật rực rỡ ❤️',
-            leftPercent: 74,
-            startY: '70vh',
-            duration: 22,
-            swayAmount: -15,
+            leftPercent: 76,
+            startY: '45vh',
+            duration: 12,
+            swayAmount: -14,
             createdAt: now - 4000,
+          },
+          {
+            id: 'init-3',
+            name: 'Bảo Trâm',
+            message: 'Chúc Kim Cương tốt nghiệp rực rỡ! 4 năm nỗ lực tuyệt vời 🎓✨',
+            leftPercent: 20,
+            startY: '68vh',
+            duration: 12,
+            swayAmount: 12,
+            createdAt: now - 2000,
+          },
+          {
+            id: 'init-4',
+            name: 'Thầy Minh Hoàng',
+            message: 'Thầy tin em sẽ còn tiến thật xa trên con đường sự nghiệp!',
+            leftPercent: 56,
+            startY: '88vh',
+            duration: 13,
+            swayAmount: -12,
+            createdAt: now - 500,
           },
         ];
 
-    wishIndexRef.current = 2;
+    wishIndexRef.current = 4;
     setBubbles(initialBubbles);
   }, []);
 
@@ -130,19 +160,20 @@ export const FloatingWishBubbles: React.FC = () => {
         setWishesPool((prev) => [{ name, message }, ...prev]);
 
         const isMobile = window.innerWidth < 768;
+        const targetMax = isMobile ? 4 : 6;
         const newBubble: ActiveBubble = {
           id: `new-${nextIdRef.current++}-${Date.now()}`,
           name,
           message,
           leftPercent: isMobile ? 8 : 36 + Math.random() * 20,
           startY: '102vh',
-          duration: isMobile ? 18 : 22,
-          swayAmount: 18,
+          duration: isMobile ? 10 : 12,
+          swayAmount: 16,
           createdAt: Date.now(),
           isNew: true,
         };
-        // Giữ tối đa 3 bong bóng
-        setBubbles((prev) => [...prev.slice(-2), newBubble]);
+        // Giữ tối đa targetMax bong bóng
+        setBubbles((prev) => [...prev.slice(-(targetMax - 1)), newBubble]);
       }
     };
 
@@ -153,21 +184,21 @@ export const FloatingWishBubbles: React.FC = () => {
     };
   }, []);
 
-  // 4. Vòng lặp liên tục: Đảm bảo trên website LUÔN CÓ 1-3 bong bóng lời chúc vô tận
+  // 4. Vòng lặp liên tục: Duy trì 3-6 bong bóng lời chúc nổi lên liên tục với tốc độ nhanh
   useEffect(() => {
     if (wishesPool.length === 0) return;
 
-    // Quét và bổ sung đều đặn mỗi 2.5 giây
+    // Quét và bổ sung đều đặn mỗi 1.2 giây
     const loopInterval = setInterval(() => {
       const isMobile = window.innerWidth < 768;
-      const targetMax = 3;
+      const targetMax = isMobile ? 4 : 6;
       const now = Date.now();
 
       setBubbles((prev) => {
         // Tự động dọn dẹp các bong bóng đã sống quá thời gian duration (đã bay khỏi đỉnh màn hình)
         const alive = prev.filter((b) => now - b.createdAt < (b.duration + 1) * 1000);
 
-        // Nếu đã đủ 3 bong bóng đang bay thì giữ nguyên
+        // Nếu đã đủ targetMax bong bóng đang bay thì giữ nguyên
         if (alive.length >= targetMax) {
           return alive;
         }
@@ -177,25 +208,32 @@ export const FloatingWishBubbles: React.FC = () => {
         const wish = wishesPool[poolIndex];
         wishIndexRef.current++;
 
-        // Phân bổ làn bay (Lane) luân phiên để không bao giờ bị đè lên nhau
+        // Phân bổ 5 làn bay luân phiên trên Desktop và 3 làn trên Mobile để rải đều không đè lên nhau
         let left: number;
         if (isMobile) {
-          const lane = laneIndexRef.current % 2;
-          laneIndexRef.current++;
-          left = lane === 0 ? 5 + Math.random() * 6 : 42 + Math.random() * 8;
-        } else {
           const lane = laneIndexRef.current % 3;
           laneIndexRef.current++;
+          if (lane === 0) left = 5 + Math.random() * 8;
+          else if (lane === 1) left = 38 + Math.random() * 8;
+          else left = 20 + Math.random() * 10;
+        } else {
+          const lane = laneIndexRef.current % 5;
+          laneIndexRef.current++;
           if (lane === 0) {
-            left = 4 + Math.random() * 14; // Cánh trái
+            left = 4 + Math.random() * 10; // Cánh trái ngoài
           } else if (lane === 1) {
-            left = 74 + Math.random() * 12; // Cánh phải
+            left = 76 + Math.random() * 10; // Cánh phải ngoài
+          } else if (lane === 2) {
+            left = 18 + Math.random() * 12; // Cánh trái trong
+          } else if (lane === 3) {
+            left = 60 + Math.random() * 12; // Cánh phải trong
           } else {
-            left = 32 + Math.random() * 22; // Ở giữa
+            left = 36 + Math.random() * 16; // Ở giữa
           }
         }
 
-        const duration = isMobile ? 18 + Math.random() * 4 : 22 + Math.random() * 4;
+        // Tốc độ nhanh hơn 50% (thời gian bay rút ngắn từ 22-26s xuống 11-14s desktop, 9-12s mobile)
+        const duration = isMobile ? 9 + Math.random() * 3 : 11 + Math.random() * 3.5;
 
         const newBubble: ActiveBubble = {
           id: `b-${nextIdRef.current++}-${now}`,
@@ -210,7 +248,7 @@ export const FloatingWishBubbles: React.FC = () => {
 
         return [...alive, newBubble];
       });
-    }, 2500);
+    }, 1200);
 
     return () => clearInterval(loopInterval);
   }, [wishesPool]);
