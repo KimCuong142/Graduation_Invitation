@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Heart } from 'lucide-react';
+import { Menu, X, Play, Pause, Music } from 'lucide-react';
+import { useBackgroundMusic } from '../../hooks/useBackgroundMusic';
 
 interface NavbarProps {
   onOpenGuestbook?: () => void;
@@ -63,6 +64,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { isPlaying, toggle: toggleMusic } = useBackgroundMusic();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -133,8 +135,38 @@ export const Navbar: React.FC<NavbarProps> = ({
           ))}
         </nav>
 
-        {/* Right: Guest pill + Social icons */}
+        {/* Right: Music Play/Pause + Guest pill + Social icons */}
         <div className="hidden sm:flex items-center gap-2.5">
+          {/* Topbar Music Play/Pause Button */}
+          <button
+            onClick={toggleMusic}
+            type="button"
+            aria-label={isPlaying ? 'Tạm dừng bài hát' : 'Phát bài hát'}
+            title={isPlaying ? 'Tạm dừng: Cảm Ơn Người Đã Thức Cùng Tôi' : 'Phát: Cảm Ơn Người Đã Thức Cùng Tôi'}
+            className={`h-9 px-3 rounded-full liquid-glass liquid-glass-hover flex items-center gap-2 text-xs font-medium transition-all duration-300 border select-none cursor-pointer ${
+              isPlaying
+                ? 'border-amber-400/60 bg-amber-400/20 text-amber-300 shadow-[0_0_14px_rgba(251,191,36,0.25)]'
+                : 'border-white/10 hover:border-amber-400/40 text-stone-300 hover:text-amber-300'
+            }`}
+          >
+            {isPlaying ? (
+              <>
+                <span className="flex items-end gap-[2px] h-3">
+                  <span className="w-[2px] h-2 bg-amber-400 rounded-full animate-pulse" />
+                  <span className="w-[2px] h-3.5 bg-amber-300 rounded-full animate-bounce" />
+                  <span className="w-[2px] h-1.5 bg-amber-400 rounded-full animate-pulse" />
+                </span>
+                <Pause className="w-3.5 h-3.5 fill-amber-300 shrink-0" />
+                <span className="text-[11px] tracking-wide">Nhạc</span>
+              </>
+            ) : (
+              <>
+                <Play className="w-3.5 h-3.5 fill-current shrink-0 ml-0.5 text-amber-400" />
+                <span className="text-[11px] tracking-wide">Phát nhạc</span>
+              </>
+            )}
+          </button>
+
           {guestName && (
             <div className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-medium">
               <span>Khách mời:</span>
@@ -173,11 +205,28 @@ export const Navbar: React.FC<NavbarProps> = ({
           </a>
         </div>
 
-        {/* Mobile Hamburger Button */}
-        <div className="flex sm:hidden items-center">
+        {/* Mobile: Music Play/Pause + Hamburger Button */}
+        <div className="flex sm:hidden items-center gap-2">
+          <button
+            onClick={toggleMusic}
+            type="button"
+            aria-label={isPlaying ? 'Tạm dừng nhạc' : 'Phát nhạc'}
+            className={`w-9 h-9 rounded-full liquid-glass flex items-center justify-center transition-all duration-200 border cursor-pointer ${
+              isPlaying
+                ? 'border-amber-400/60 bg-amber-400/20 text-amber-300 shadow-[0_0_10px_rgba(251,191,36,0.3)]'
+                : 'border-white/10 text-stone-300'
+            }`}
+          >
+            {isPlaying ? (
+              <Pause className="w-4 h-4 fill-amber-300 text-amber-300" />
+            ) : (
+              <Play className="w-4 h-4 fill-current ml-0.5 text-amber-400" />
+            )}
+          </button>
+
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="w-10 h-10 rounded-full liquid-glass flex items-center justify-center text-amber-300 p-2 border border-amber-400/30"
+            className="w-9 h-9 rounded-full liquid-glass flex items-center justify-center text-amber-300 p-2 border border-amber-400/30"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -188,6 +237,32 @@ export const Navbar: React.FC<NavbarProps> = ({
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="sm:hidden absolute top-full left-0 right-0 bg-black/95 border-b border-amber-400/30 backdrop-blur-xl px-6 py-6 flex flex-col gap-4 animate-in fade-in slide-in-from-top-4 duration-200">
+          <button
+            onClick={toggleMusic}
+            type="button"
+            className={`w-full py-2.5 px-4 rounded-xl liquid-glass flex items-center justify-between border transition-all ${
+              isPlaying
+                ? 'border-amber-400/50 bg-amber-400/20 text-amber-300'
+                : 'border-white/10 text-stone-300'
+            }`}
+          >
+            <div className="flex items-center gap-2.5 text-xs font-medium">
+              <Music className="w-4 h-4 text-amber-400" />
+              <span>Cảm Ơn Người Đã Thức Cùng Tôi</span>
+            </div>
+            {isPlaying ? (
+              <div className="flex items-center gap-1.5 text-xs text-amber-300 font-bold">
+                <Pause className="w-3.5 h-3.5 fill-amber-300" />
+                <span>Tạm dừng</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1.5 text-xs text-stone-300 font-bold">
+                <Play className="w-3.5 h-3.5 fill-current text-amber-400" />
+                <span>Phát nhạc</span>
+              </div>
+            )}
+          </button>
+
           <nav className="flex flex-col gap-3">
             {navLinks.map((link) => (
               <a
